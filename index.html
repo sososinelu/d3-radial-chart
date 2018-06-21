@@ -6,6 +6,10 @@ body {
   font: 10px sans-serif;
 }
 
+.chart {
+  text-align: center;
+}
+
 .axis path,
 .axis line {
   fill: none;
@@ -20,35 +24,39 @@ body {
 </style>
 <body>
 <!--   References
+  http://d3js.live/#/DashBoard
   https://bl.ocks.org/bricedev/8aaef92e64007f882267
   https://bl.ocks.org/AntonOrlov/6b42d8676943cc933f48a43a7c7e5b6c
   http://d3js.live/#/Radial_Stacked_Bar_II
-  http://eige.europa.eu/gender-equality-index/2015/SE -->
+  http://eige.europa.eu/gender-equality-index/2015/SE
+-->
 
-
+<div class="chart"></div>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
 
-var width = 960,
-    height = 500,
+var width = 700,
+    height = 700,
     barHeight = height / 2 - 40;
 
 var formatNumber = d3.format("s");
 
 var color = d3.scale.ordinal()
-    .range(["#8dd3c7","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5","#ffed6f"]);
+    .range(["#954B92","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5","#ffed6f"]);
 
-var svg = d3.select('body').append("svg")
+var svg = d3.select('.chart').append("svg")
     .attr("width", width)
     .attr("height", height)
-  .append("g")
+    .append("g")
     .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
 
 d3.csv("data.csv", function(error, data) {
 
   data.sort(function(a,b) { return b.pillar - a.pillar; });
 
-  var extent = d3.extent(data, function(d) { return d.pillar; });
+   //var extent = d3.extent(data, function(d) { return  d.pillar; });
+  var extent = [0, 100];
+
   var barScale = d3.scale.linear()
       .domain(extent)
       .range([0, barHeight]);
@@ -62,12 +70,12 @@ d3.csv("data.csv", function(error, data) {
 
   var xAxis = d3.svg.axis()
       .scale(x).orient("left")
-      .ticks(3)
+      .ticks(10)
       .tickFormat(formatNumber);
       
   var circles = svg.selectAll("circle")
-          .data(x.ticks(3))
-        .enter().append("circle")
+          .data(x.ticks(10))
+          .enter().append("circle")
           .attr("r", function(d) {return barScale(d);})
           .style("fill", "none")
           .style("stroke", "black")
@@ -81,19 +89,37 @@ d3.csv("data.csv", function(error, data) {
   
   var segments = svg.selectAll("path")
           .data(data)
-        .enter().append("path")
-          .each(function(d) { d.outerRadius = 0; })
+          .enter().append("path")
+          .each(function(d) { d.outerRadius = 0; console.log(d); })
           .style("fill", function (d) { return color(d.country); })
           .attr("d", arc);
 
   // Plotted data
-  // segments.transition().ease("elastic").duration(1000).delay(function(d,i) {return (25-i)*100;})
-  //         .attrTween("d", function(d,index) {
-  //           var i = d3.interpolate(d.outerRadius, barScale(+d.pillar));
-  //           return function(t) { d.outerRadius = i(t); return arc(d,index); };
-  //         });
+  segments.transition().ease("elastic").duration(1000).delay(function(d,i) {return (25-i)*100;})
+    .attrTween("d", function(d,index) {
 
-  // Circles
+      var i = d3.interpolate(d.outerRadius, barScale(+d.pillar));
+      // var text = index.append("text")
+      //   .attr("x", d)
+      //   .attr("dy", index);
+
+      // index.append("textPath")
+      //     .attr("stroke","black")
+      //     .attr("xlink:href","#path1")
+      //     .text("abc");
+
+      return function(t) { d.outerRadius = i(t); return arc(d,index); };
+    });
+
+
+
+     // d3.append("text")
+     //  //.attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+     //  .attr("dy", ".35em")
+     //  .text(function(d) { return d.pillar; });
+
+
+  // Outer circles
   svg.append("circle")
       .attr("r", barHeight)
       .classed("outer", true)
@@ -111,7 +137,7 @@ d3.csv("data.csv", function(error, data) {
   // Lines
   var lines = svg.selectAll("line")
       .data(keys)
-    .enter().append("line")
+      .enter().append("line")
       .attr("y2", -barHeight - 30)
       .style("stroke", "black")
       .style("stroke-width",".5px")
