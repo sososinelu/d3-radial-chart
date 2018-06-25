@@ -22,6 +22,30 @@ body {
   display: none;
 }
 
+.clicked {
+  fill: #CFD7D0!important; 
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.full-arc {
+  fill: transparent; 
+}
+
+.full-arc:hover {
+  fill: #CFD7D0!important; 
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.light-blue {
+  fill: #0e8efe;
+}
+
+.dark-blue {
+  fill: #005aab;
+}
+
 </style>
 <body>
 <!--   References
@@ -47,7 +71,7 @@ var formatNumber = d3.format("s");
 //   .range(["#954B92","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5","#ffed6f"]);
 
 var color = d3.scale.ordinal()
-  .range(["#0e8efe", "#005aab"]);
+  .range(["light-blue", "dark-blue"]);
 
 var svg = d3.select('.chart').append("svg")
   .attr("width", width)
@@ -96,10 +120,10 @@ d3.csv("data.csv", function(error, data) {
       .data(data)
     .enter().append("path")
       .attr("id", function(d,i) { return "arc-"+i; })
-      .attr("opacity", "0.7")
+      .attr('data-colour', function (d) { return color(d.country); })
+      .attr("class", function (d) { return color(d.country); })
       .each(function(d) { d.outerRadius = 0; })
-      .style("fill", "transparent")
-      .style("fill", function (d) { return color(d.country); })
+      .style("opacity", "0.7")
       .attr("d", arc);
 
   // Plot data segments
@@ -120,7 +144,7 @@ d3.csv("data.csv", function(error, data) {
       .attr("xlink:href",function(d,i){return "#arc-"+i;})
       .attr("startOffset","5%")
       .style("font-weight","bold")
-      .style("fill", function(d, i) {return "#CFD7D0";})
+      .style("fill", "#CFD7D0")
       .attr("text-anchor", "middle")
       .text(function(d){return d.pillar;});
 
@@ -147,32 +171,23 @@ d3.csv("data.csv", function(error, data) {
     .style("stroke-width",".7px")
     .attr("transform", function(d, i) { return "rotate(" + (i * 360 / numBars) + ")"; });
 
-  // Middle circle
-  svg.append("circle")
-    .attr("class", "dot")
-    .attr("r",  50)
-    .attr("cx",  0)
-    .attr("cy", 0)
-    .attr("opacity", "0.9")
-    .style("fill", "#CFD7D0");
-
   // Measurement
   // svg.append("g")
   //   .attr("class", "x axis")
   //   .call(xAxis);
 
-  // Labels
+  // Country labels
   var labelRadius = barHeight * 1.05;
 
-  var labels = svg.append("g")
-    .classed("labels", true);
+  var countryLabels = svg.append("g")
+    .classed("country-labels", true);
 
-  labels.append("def")
+  countryLabels.append("def")
     .append("path")
     .attr("id", "label-path")
     .attr("d", "m0 " + -labelRadius + " a" + labelRadius + " " + labelRadius + " 0 1,1 -0.01 0");
 
-  labels.selectAll("text")
+  countryLabels.selectAll("text")
     .data(keys)
     .enter().append("text")
     .style("text-anchor", "middle")
@@ -188,26 +203,28 @@ d3.csv("data.csv", function(error, data) {
       .data(data)
     .enter().append("path")
       .attr("id", function(d,i) { return "full-arc-"+i; })
-      .each(function(d) { d.outerRadius = 0; })
-      .style("fill", "transparent")
-      //.style("fill", function (d) { return color(d.country); })
+      .attr("class", "full-arc")
+      .attr("data-clicked", "false")
       .attr("d", arc)
+      .each(function(d) { d.outerRadius = 0; })
+      .text(function(d){return d.pillar;})
+      .classed("clicked", false)
+      .on("click",function(){
+        d3.select("#middle-circle-text").text(d3.select(this).text());
+        d3.selectAll(".full-arc").attr("data-clicked", "false");
+        d3.selectAll(".full-arc").classed("clicked", false);
+        d3.selectAll("arc").classed("clicked", false);
+        d3.select(this).attr("data-clicked", "true");
+        d3.select(this).classed("clicked", true);
+      })
       .on("mouseover",function(){
-        console.log(d3.select(this).attr("id"));
-        var dataSegmentId = d3.select(this).attr("id").replace('full-','');
-        dataSegmentColor = d3.select('#'+dataSegmentId).style('fill');
-        console.log(dataSegmentColor);
-        d3.select(this).style("fill", "#CFD7D0");
-        d3.select(this).attr("opacity", "0.5");
-        d3.select('#'+dataSegmentId).style("fill", "#CFD7D0");
-        d3.select('#'+dataSegmentId).attr("opacity", "0.5");
-        d3.select(this).style("cursor", "pointer"); 
+        dataSegmentId = d3.select(this).attr("id").replace('full-','');
+        dataSegmentColor = d3.select('#'+dataSegmentId).attr("data-colour");
       })
       .on("mouseout",function(){
-        var dataSegmentId = d3.select(this).attr("id").replace('full-','');
-        d3.select(this).style("fill", "transparent");
-        d3.select('#'+dataSegmentId).style("fill", dataSegmentColor);
-        d3.select(this).style("cursor", "default"); 
+        if(d3.select(this).attr("data-clicked") !== "true") {
+          d3.select('#'+dataSegmentId).attr("class", dataSegmentColor);
+        }
       });
 
   // Plot full segments
@@ -216,6 +233,25 @@ d3.csv("data.csv", function(error, data) {
       var i = d3.interpolate(d.outerRadius, barScale(110));
       return function(t) { d.outerRadius = i(t); return arc(d,index); };
     });
+
+  // Middle circle & text
+  var middleCircle = svg.append("g")
+    .attr("class", "middle-circle");
+
+  middleCircle.append("circle")
+    .attr("class", "dot")
+    .attr("r",  50)
+    .attr("cx",  0)
+    .attr("cy", 0)
+    .style("fill", "#CFD7D0");
+
+  middleCircle.append("text")
+    .attr("dy", 12)
+    .attr("id", "middle-circle-text")
+    .style("text-anchor", "middle")
+    .style("font-weight","bold")
+    .style("font-size", "38px")
+    .style("fill", "#001931");
 });
 
 </script>
