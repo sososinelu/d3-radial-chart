@@ -92,28 +92,29 @@ d3.csv("data.csv", function(error, data) {
     .endAngle(function(d,i) { return ((i + 1) * 2 * Math.PI) / numBars; })
     .innerRadius(0);
 
-
-  var segments = svg.selectAll("path")
+  var dataSegments = svg.selectAll("path")
       .data(data)
     .enter().append("path")
       .attr("id", function(d,i) { return "arc-"+i; })
+      .attr("opacity", "0.7")
       .each(function(d) { d.outerRadius = 0; })
-      .style("fill", "none")
+      .style("fill", "transparent")
       .style("fill", function (d) { return color(d.country); })
       .attr("d", arc);
 
-  // Plotted data
-  segments.transition().ease("elastic").duration(1000).delay(function(d,i) {return (25-i)*100;})
+  // Plot data segments
+  dataSegments.transition().ease("elastic").duration(1000).delay(function(d,i) {return (25-i)*100;})
     .attrTween("d", function(d,index) {
       var i = d3.interpolate(d.outerRadius, barScale(+d.pillar));
       return function(t) { d.outerRadius = i(t); return arc(d,index); };
     });
 
+  // Add data segment text
   svg.selectAll(".arc-text")
       .data(data)
     .enter().append("text")
       .attr("class", "arc-text")
-      .attr("dy", "15")
+      .attr("dy", "-8")
       .style("font-size", "12px")
     .append("textPath")
       .attr("xlink:href",function(d,i){return "#arc-"+i;})
@@ -151,7 +152,8 @@ d3.csv("data.csv", function(error, data) {
     .attr("class", "dot")
     .attr("r",  50)
     .attr("cx",  0)
-    .attr("cy", 0)     
+    .attr("cy", 0)
+    .attr("opacity", "0.9")
     .style("fill", "#CFD7D0");
 
   // Measurement
@@ -181,6 +183,39 @@ d3.csv("data.csv", function(error, data) {
     .attr("startOffset", function(d, i) {return i * 100 / numBars + 50 / numBars + '%';})
     .text(function(d) {return d.toUpperCase(); });
 
+  // Full segments for hovering/click events
+  var full_segments = svg.selectAll("path1")
+      .data(data)
+    .enter().append("path")
+      .attr("id", function(d,i) { return "full-arc-"+i; })
+      .each(function(d) { d.outerRadius = 0; })
+      .style("fill", "transparent")
+      //.style("fill", function (d) { return color(d.country); })
+      .attr("d", arc)
+      .on("mouseover",function(){
+        console.log(d3.select(this).attr("id"));
+        var dataSegmentId = d3.select(this).attr("id").replace('full-','');
+        dataSegmentColor = d3.select('#'+dataSegmentId).style('fill');
+        console.log(dataSegmentColor);
+        d3.select(this).style("fill", "#CFD7D0");
+        d3.select(this).attr("opacity", "0.5");
+        d3.select('#'+dataSegmentId).style("fill", "#CFD7D0");
+        d3.select('#'+dataSegmentId).attr("opacity", "0.5");
+        d3.select(this).style("cursor", "pointer"); 
+      })
+      .on("mouseout",function(){
+        var dataSegmentId = d3.select(this).attr("id").replace('full-','');
+        d3.select(this).style("fill", "transparent");
+        d3.select('#'+dataSegmentId).style("fill", dataSegmentColor);
+        d3.select(this).style("cursor", "default"); 
+      });
+
+  // Plot full segments
+  full_segments.transition().ease("elastic").duration(1000).delay(function(d,i) {return (25-i)*100;})
+    .attrTween("d", function(d,index) {
+      var i = d3.interpolate(d.outerRadius, barScale(110));
+      return function(t) { d.outerRadius = i(t); return arc(d,index); };
+    });
 });
 
 </script>
