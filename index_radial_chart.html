@@ -57,7 +57,7 @@ body {
   https://github.com/d3/d3-interpolate
 -->
 
-<div class="chart"></div>
+  <div class="chart"></div>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
 
@@ -66,9 +66,6 @@ var width = 700,
     barHeight = height / 2 - 40;
 
 var formatNumber = d3.format("s");
-
-// var color = d3.scale.ordinal()
-//   .range(["#954B92","#ffffb3","#bebada","#fb8072","#80b1d3","#fdb462","#b3de69","#fccde5","#d9d9d9","#bc80bd","#ccebc5","#ffed6f"]);
 
 var color = d3.scale.ordinal()
   .range(["light-blue", "dark-blue"]);

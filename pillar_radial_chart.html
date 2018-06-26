@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  background-color: #001930;
+}
+
+#pillar1,
+#pillar2,
+#pillar3,
+#pillar4,
+#pillar5 {
+  /*width: 33%;*/
+  height: 200px;
+  box-sizing: border-box;
+  float: left;
+  display: block;
+}
+
+/*********** #pillar1 *************/
+
+#pillar1 .arc,
+#pillar1 .component .label {
+  fill: #61C79F;
+}
+
+#pillar1 .component {
+  fill: #499D85;
+}
+
+/*********** #pillar2 *************/
+
+#pillar2 .arc,
+#pillar2 .component .label {
+  fill: #E4CD54;
+}
+
+#pillar2 .component {
+  fill: #394739;
+}
+
+/*********** #pillar3 *************/
+
+#pillar3 .arc,
+#pillar3 .component .label {
+  fill: #DD3539;
+}
+
+#pillar3 .component {
+  fill: #622534;
+}
+
+/*********** #pillar4 *************/
+
+#pillar4 .arc,
+#pillar4 .component .label {
+  fill: #D1862E;
+}
+
+#pillar4 .component {
+  fill: #34342F;
+}
+
+/*********** #pillar5 *************/
+
+#pillar5 .arc,
+#pillar5 .component .label {
+  fill: #D2D7D3;
+}
+
+#pillar5 .component {
+  fill: #344858;
+}
+
+/***********************************/
+
+.component .label {
+  font-family: Myriad, "Helvetic Neue", Helvetica, Arial;
+  text-anchor: middle;
+}
+
+.main {
+  cursor: pointer;
+}
+
+.main:hover .component .label {
+  text-decoration: underline;
+}
+
+.label {
+  text-anchor: middle;
+  fill: #fff;
+  font-weight: bold;
+}
+
+.radial-svg {
+  display: block;
+  margin: 0 auto;
+  padding-left: 5px;
+}
+
+</style>
+<body>
+<!--   References
+  http://d3js.live/#/DashBoard
+  https://codepen.io/RickHocutt/pen/gBfvk
+  https://bl.ocks.org/AntonOrlov/6b42d8676943cc933f48a43a7c7e5b6c
+  http://eige.europa.eu/gender-equality-index/2015/SE
+  https://github.com/d3/d3-interpolate
+-->
+
+  <div id="pillar1"></div>
+  <div id="pillar2"></div>
+  <div id="pillar3"></div>
+  <div id="pillar4"></div>
+  <div id="pillar5"></div>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script>
+
+function radialProgress(parent) {
+  var _data=null,
+      _duration= 1000,
+      _selection,
+      _margin = {top:0, right:0, bottom:30, left:0},
+      __width = 150,
+      __height = 150,
+      _diameter = 100,
+      _label="",
+      _fontSize=10;
+
+
+  var _mouseClick;
+
+  var _value= 0,
+      _minValue = 0,
+      _maxValue = 100;
+
+  var  _currentArc= 0, _currentValue=0;
+
+  var _arc = d3.svg.arc()
+  .startAngle(0 * (Math.PI/180)); //just radians
+
+  _selection = d3.select(parent);
+
+  function component() {
+
+    _selection.each(function (data) {
+
+      // Select the svg element, if it exists.
+      var svg = d3.select(this).selectAll("svg").data([data]);
+
+      var enter = svg.enter().append("svg").attr("class","radial-svg").append("g");
+
+      measure();
+
+      svg.attr("width", __width)
+      .attr("height", __height);
+
+
+      var background = enter.append("g").attr("class","component")
+      .attr("cursor","pointer")
+      .on("click",onMouseClick);
+
+      _arc.endAngle(360 * (Math.PI/180))
+
+      background.append("circle")
+      .attr("class","circle-background")
+      .attr("r", _width / 2)
+      .attr("cx", 60)
+      .attr("cy", 60);
+
+
+      // background.append("rect")
+      // .attr("class","background")
+      // .attr("width", _width)
+      // .attr("height", _height);
+
+      background.append("path")
+      .attr("transform", "translate(" + _width/2 + "," + _width/2 + ")")
+      .attr("d", _arc);
+
+      background.append("text")
+        .attr("class", "label")
+        .attr("transform", "translate(" + _width/2 + "," + (_width + _fontSize) + ")")
+        .text(_label);
+      var g = svg.select("g")
+        .attr("class", "main")
+        .attr("transform", "translate(" + _margin.left + "," + _margin.top + ")");
+
+      _arc.endAngle(_currentArc);
+      enter.append("g").attr("class", "arcs");
+
+      var path = svg.select(".arcs").selectAll(".arc").data(data);
+      path.enter().append("path")
+        .attr("class","arc")
+        .attr("transform", "translate(" + _width/2 + "," + _width/2 + ")")
+        .attr("d", _arc);
+
+      enter.append("g").attr("class", "labels");
+      var label = svg.select(".labels").selectAll(".label").data(data);
+      label.enter().append("text")
+        .attr("class","label")
+        .attr("y",_width/2+_fontSize/3)
+        .attr("x",_width/2)
+        .attr("cursor","pointer")
+        .attr("width",_width)
+        .text(function (d) { return Math.round((_value-_minValue)/(_maxValue-_minValue)*100) })
+        .style("font-size",_fontSize+"px")
+        .on("click",onMouseClick);
+
+      path.exit().transition().duration(500).attr("x",1000).remove();
+
+      layout(svg);
+
+      function layout(svg) {
+
+        var ratio = (_value-_minValue)/(_maxValue-_minValue);
+        var endAngle = Math.min(360*ratio,360);
+        endAngle = endAngle * Math.PI/180;
+
+        path.datum(endAngle);
+        path.transition().duration(_duration)
+          .attrTween("d", arcTween);
+
+        label.datum(ratio*100);
+        label.transition().duration(_duration)
+          .tween("text", labelTween);
+      }
+    });
+
+    function onMouseClick(d) {
+      if (typeof _mouseClick == "function") {
+        _mouseClick.call();
+      }
+    }
+  }
+
+  function labelTween(a) {
+    var i = d3.interpolate(_currentValue, a);
+    _currentValue = i(0);
+
+    return function(t) {
+      _currentValue = i(t);
+      this.textContent = i(t).toFixed(1);
+      //this.textContent = Math.ceil(i(t) - parseInt(i(t))) ? i(t).toFixed(1) : i(t).toFixed(0);
+    }
+  }
+
+  function arcTween(a) {
+    var i = d3.interpolate(_currentArc, a);
+
+    return function(t) {
+      _currentArc=i(t);
+      return _arc.endAngle(i(t))();
+    };
+  }
+
+  function measure() {
+    _width=_diameter - _margin.right - _margin.left - _margin.top - _margin.bottom;
+    _height=_width;
+    _fontSize=_width*.2;
+    _arc.outerRadius(_width/2);
+    _arc.innerRadius(_width/2 * .6);
+  }
+
+
+  component.render = function() {
+    measure();
+    component();
+    return component;
+  }
+
+  component.value = function (_) {
+    if (!arguments.length) return _value;
+    _value = [_];
+    _selection.datum([_value]);
+    return component;
+  }
+
+
+  component.margin = function(_) {
+    if (!arguments.length) return _margin;
+    _margin = _;
+    return component;
+  };
+
+  component.diameter = function(_) {
+    if (!arguments.length) return _diameter
+    _diameter =  _;
+    return component;
+  };
+
+  component.minValue = function(_) {
+    if (!arguments.length) return _minValue;
+    _minValue = _;
+    return component;
+  };
+
+  component.maxValue = function(_) {
+    if (!arguments.length) return _maxValue;
+    _maxValue = _;
+    return component;
+  };
+
+  component.label = function(_) {
+    if (!arguments.length) return _label;
+    _label = _;
+    return component;
+  };
+
+  component._duration = function(_) {
+    if (!arguments.length) return _duration;
+    _duration = _;
+    return component;
+  };
+
+  component.onClick = function (_) {
+    if (!arguments.length) return _mouseClick;
+    _mouseClick=_;
+    return component;
+  }
+
+  return component;
+
+}
+
+var pillar1 = d3.select(document.getElementById('pillar1'));
+var pillar2 = d3.select(document.getElementById('pillar2'));
+var pillar3 = d3.select(document.getElementById('pillar3'));
+var pillar4 = d3.select(document.getElementById('pillar4'));
+var pillar5 = d3.select(document.getElementById('pillar5'));
+
+start();
+
+function onClick1() {
+  deselect();
+  pillar1.attr("class","selectedRadial");
+}
+
+function onClick2() {
+  deselect();
+  pillar2.attr("class","selectedRadial");
+}
+
+function onClick3() {
+  deselect();
+  pillar3.attr("class","selectedRadial");
+}
+
+function onClick4() {
+  deselect();
+  pillar4.attr("class","selectedRadial");
+}
+
+function onClick5() {
+  deselect();
+  pillar5.attr("class","selectedRadial");
+}
+
+function labelFunction(val,min,max) {
+
+}
+
+function deselect() {
+  pillar1.attr("class","radial");
+  pillar2.attr("class","radial");
+  pillar3.attr("class","radial");
+  pillar4.attr("class","radial");
+  pillar5.attr("class","radial");
+}
+
+function start() {
+
+  var pillar1 = radialProgress(document.getElementById('pillar1'))
+  .label("GOOD HEALTH")
+  .onClick(onClick1)
+  .diameter(150)
+  .value(78.5)
+  .render();
+
+  var pillar2 = radialProgress(document.getElementById('pillar2'))
+  .label("INNOVATION")
+  .onClick(onClick2)
+  .diameter(150)
+  .value(23)
+  .render();
+
+  var pillar3 = radialProgress(document.getElementById('pillar3'))
+  .label("QUALITY")
+  .onClick(onClick3)
+  .diameter(150)
+  .value(86.7)
+  .render();
+
+  var pillar4 = radialProgress(document.getElementById('pillar4'))
+  .label(" SUSTAINABILITY")
+  .onClick(onClick4)
+  .diameter(150)
+  .value(50)
+  .render();
+
+  var pillar5 = radialProgress(document.getElementById('pillar5'))
+  .label("ACCESS")
+  .onClick(onClick5)
+  .diameter(150)
+  .value(100)
+  .render();
+
+}
+
+</script>
