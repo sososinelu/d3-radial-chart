@@ -105,9 +105,6 @@ body {
 <!--   References
   http://d3js.live/#/DashBoard
   https://codepen.io/RickHocutt/pen/gBfvk
-  https://bl.ocks.org/AntonOrlov/6b42d8676943cc933f48a43a7c7e5b6c
-  http://eige.europa.eu/gender-equality-index/2015/SE
-  https://github.com/d3/d3-interpolate
 -->
 
   <div id="pillar1"></div>
@@ -129,7 +126,6 @@ function radialProgress(parent) {
       _label="",
       _fontSize=10;
 
-
   var _mouseClick;
 
   var _value= 0,
@@ -144,9 +140,7 @@ function radialProgress(parent) {
   _selection = d3.select(parent);
 
   function component() {
-
     _selection.each(function (data) {
-
       // Select the svg element, if it exists.
       var svg = d3.select(this).selectAll("svg").data([data]);
 
@@ -156,7 +150,6 @@ function radialProgress(parent) {
 
       svg.attr("width", __width)
       .attr("height", __height);
-
 
       var background = enter.append("g").attr("class","component")
       .attr("cursor","pointer")
@@ -169,12 +162,6 @@ function radialProgress(parent) {
       .attr("r", _width / 2)
       .attr("cx", 60)
       .attr("cy", 60);
-
-
-      // background.append("rect")
-      // .attr("class","background")
-      // .attr("width", _width)
-      // .attr("height", _height);
 
       background.append("path")
       .attr("transform", "translate(" + _width/2 + "," + _width/2 + ")")
@@ -214,7 +201,6 @@ function radialProgress(parent) {
       layout(svg);
 
       function layout(svg) {
-
         var ratio = (_value-_minValue)/(_maxValue-_minValue);
         var endAngle = Math.min(360*ratio,360);
         endAngle = endAngle * Math.PI/180;
@@ -264,7 +250,6 @@ function radialProgress(parent) {
     _arc.innerRadius(_width/2 * .6);
   }
 
-
   component.render = function() {
     measure();
     component();
@@ -277,7 +262,6 @@ function radialProgress(parent) {
     _selection.datum([_value]);
     return component;
   }
-
 
   component.margin = function(_) {
     if (!arguments.length) return _margin;
@@ -322,40 +306,31 @@ function radialProgress(parent) {
   }
 
   return component;
-
 }
-
-var pillar1 = d3.select(document.getElementById('pillar1'));
-var pillar2 = d3.select(document.getElementById('pillar2'));
-var pillar3 = d3.select(document.getElementById('pillar3'));
-var pillar4 = d3.select(document.getElementById('pillar4'));
-var pillar5 = d3.select(document.getElementById('pillar5'));
-
-start();
 
 function onClick1() {
   deselect();
-  pillar1.attr("class","selectedRadial");
+  pillar1.attr("class","selected-radial");
 }
 
 function onClick2() {
   deselect();
-  pillar2.attr("class","selectedRadial");
+  pillar2.attr("class","selected-radial");
 }
 
 function onClick3() {
   deselect();
-  pillar3.attr("class","selectedRadial");
+  pillar3.attr("class","selected-radial");
 }
 
 function onClick4() {
   deselect();
-  pillar4.attr("class","selectedRadial");
+  pillar4.attr("class","selected-radial");
 }
 
 function onClick5() {
   deselect();
-  pillar5.attr("class","selectedRadial");
+  pillar5.attr("class","selected-radial");
 }
 
 function labelFunction(val,min,max) {
@@ -371,7 +346,6 @@ function deselect() {
 }
 
 function start() {
-
   var pillar1 = radialProgress(document.getElementById('pillar1'))
   .label("GOOD HEALTH")
   .onClick(onClick1)
@@ -406,7 +380,15 @@ function start() {
   .diameter(150)
   .value(100)
   .render();
-
 }
+
+// Initialise the pillar charts
+var pillar1 = d3.select(document.getElementById('pillar1'));
+var pillar2 = d3.select(document.getElementById('pillar2'));
+var pillar3 = d3.select(document.getElementById('pillar3'));
+var pillar4 = d3.select(document.getElementById('pillar4'));
+var pillar5 = d3.select(document.getElementById('pillar5'));
+
+start();
 
 </script>
