@@ -1,0 +1,20 @@
+body {
+  background-color: #001931;
+}
+
+.left,
+.right {
+	float: left;
+}
+.left {
+	width: 60%;
+}
+.right {
+	width: 30%;
+	margin-top: 5%;
+}
+.top,
+.bottom {
+	display: flex;
+    justify-content: space-around;
+}

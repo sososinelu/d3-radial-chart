@@ -1,0 +1,39 @@
+.chart {
+  font: 10px sans-serif;
+  text-align: center;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.clicked {
+  fill: #CFD7D0!important; 
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.full-arc {
+  fill: transparent; 
+}
+
+.full-arc:hover {
+  fill: #CFD7D0!important; 
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.light-blue {
+  fill: #0e8efe;
+}
+
+.dark-blue {
+  fill: #005aab;
+}

@@ -1,0 +1,93 @@
+#pillar1,
+#pillar2,
+#pillar3,
+#pillar4,
+#pillar5 {
+  /*width: 33%;*/
+  height: 200px;
+  box-sizing: border-box;
+  float: left;
+  display: block;
+}
+
+/*********** #pillar1 *************/
+
+#pillar1 .arc,
+#pillar1 .component .label {
+  fill: #61C79F;
+}
+
+#pillar1 .component {
+  fill: #499D85;
+}
+
+/*********** #pillar2 *************/
+
+#pillar2 .arc,
+#pillar2 .component .label {
+  fill: #E4CD54;
+}
+
+#pillar2 .component {
+  fill: #394739;
+}
+
+/*********** #pillar3 *************/
+
+#pillar3 .arc,
+#pillar3 .component .label {
+  fill: #DD3539;
+}
+
+#pillar3 .component {
+  fill: #622534;
+}
+
+/*********** #pillar4 *************/
+
+#pillar4 .arc,
+#pillar4 .component .label {
+  fill: #D1862E;
+}
+
+#pillar4 .component {
+  fill: #34342F;
+}
+
+/*********** #pillar5 *************/
+
+#pillar5 .arc,
+#pillar5 .component .label {
+  fill: #D2D7D3;
+}
+
+#pillar5 .component {
+  fill: #344858;
+}
+
+/***********************************/
+
+.component .label {
+  font-family: sans-serif;;
+  text-anchor: middle;
+}
+
+.main {
+  cursor: pointer;
+}
+
+.main:hover .component .label {
+  text-decoration: underline;
+}
+
+.label {
+  text-anchor: middle;
+  fill: #fff;
+  font-weight: bold;
+}
+
+.radial-svg {
+  display: block;
+  margin: 0 auto;
+  padding-left: 5px;
+}

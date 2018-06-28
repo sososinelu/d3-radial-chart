@@ -1,0 +1,352 @@
+[
+    {
+        "id": 1,
+        "country":"European Union",
+        "country_code":"EU-28",
+        "index_avg": 66.2, 
+        "pillars": [
+            {"label": "Good Health", "value": 71.5},
+            {"label": "Innovation", "value": 79.6},
+            {"label": "Quality", "value": 63.4},
+            {"label": "Sustainability", "value": 65.7},
+            {"label": "Access", "value": 48.5}
+        ]
+    },
+    {
+        "id": 2,
+        "country":"Belgium",
+        "country_code":"BE",
+        "index_avg": 70.5, 
+        "pillars": [
+            {"label": "Good Health", "value": 73.8},
+            {"label": "Innovation", "value": 87.5},
+            {"label": "Quality", "value": 71.1},
+            {"label": "Sustainability", "value": 65.3},
+            {"label": "Access", "value": 53.4}
+        ]
+    },
+    {
+        "country":"Bulgaria",
+        "country_code":"BG",
+        "index_avg": 58.0, 
+        "pillars": [
+            {"label": "Good Health", "value": 68.6},
+            {"label": "Innovation", "value": 61.9},
+            {"label": "Quality", "value": 53.3},
+            {"label": "Sustainability", "value": 42.7},
+            {"label": "Access", "value": 56.0}
+        ]
+    },
+    {
+        "country":"Czech Republic",
+        "country_code":"CZ",
+        "index_avg": 53.6, 
+        "pillars": [
+            {"label": "Good Health", "value": 66.1},
+            {"label": "Innovation", "value": 75.9},
+            {"label": "Quality", "value": 57.3},
+            {"label": "Sustainability", "value": 57.3},
+            {"label": "Access", "value": 22.6}
+        ]
+    },
+    {
+        "country":"Denmark",
+        "country_code":"DK",
+        "index_avg": 76.8, 
+        "pillars": [
+            {"label": "Good Health", "value": 79.2},
+            {"label": "Innovation", "value": 86.6},
+            {"label": "Quality", "value": 73.6},
+            {"label": "Sustainability", "value": 83.1},
+            {"label": "Access", "value": 61.5}
+        ]
+    },
+    {
+        "country":"Germany",
+        "country_code":"DE",
+        "index_avg": 65.5, 
+        "pillars": [
+            {"label": "Good Health", "value": 71.4},
+            {"label": "Innovation", "value": 84.2},
+            {"label": "Quality", "value": 52.9},
+            {"label": "Sustainability", "value": 65.0},
+            {"label": "Access", "value": 53.0}
+        ]
+    },
+    {
+        "country":"Estonia",
+        "country_code":"EE",
+        "index_avg": 56.7, 
+        "pillars": [
+            {"label": "Good Health", "value": 72.1},
+            {"label": "Innovation", "value": 66.7},
+            {"label": "Quality", "value": 53.2},
+            {"label": "Sustainability", "value": 74.7},
+            {"label": "Access", "value": 28.2}
+        ]
+    },
+    {
+        "country":"Ireland",
+        "country_code":"IE",
+        "index_avg": 69.5, 
+        "pillars": [
+            {"label": "Good Health", "value": 73.9},
+            {"label": "Innovation", "value": 84.7},
+            {"label": "Quality", "value": 66.4},
+            {"label": "Sustainability", "value": 74.2},
+            {"label": "Access", "value": 48.6}
+        ]
+    },
+    {
+        "country":"Greece",
+        "country_code":"EL",
+        "index_avg": 50.0, 
+        "pillars": [
+            {"label": "Good Health", "value": 64.2},
+            {"label": "Innovation", "value": 70.7},
+            {"label": "Quality", "value": 55.6},
+            {"label": "Sustainability", "value": 44.7},
+            {"label": "Access", "value": 21.7}
+        ]
+    },
+    {
+        "country":"Spain",
+        "country_code":"ES",
+        "index_avg": 68.3, 
+        "pillars": [
+            {"label": "Good Health", "value": 72.4},
+            {"label": "Innovation", "value": 75.9},
+            {"label": "Quality", "value": 65.3},
+            {"label": "Sustainability", "value": 64.0},
+            {"label": "Access", "value": 57.0}
+        ]
+    },
+    {
+        "country":"France",
+        "country_code":"FR",
+        "index_avg": 72.6, 
+        "pillars": [
+            {"label": "Good Health", "value": 72.1},
+            {"label": "Innovation", "value": 86.1},
+            {"label": "Quality", "value": 66.1},
+            {"label": "Sustainability", "value": 67.3},
+            {"label": "Access", "value": 68.2}
+        ]
+    },
+    {
+        "country":"Croatia",
+        "country_code":"HR",
+        "index_avg": 53.1, 
+        "pillars": [
+            {"label": "Good Health", "value": 69.4},
+            {"label": "Innovation", "value": 69.9},
+            {"label": "Quality", "value": 49.8},
+            {"label": "Sustainability", "value": 51.0},
+            {"label": "Access", "value": 28.5}
+        ]
+    },
+    {
+        "country":"Italy",
+        "country_code":"IT",
+        "index_avg": 62.1, 
+        "pillars": [
+            {"label": "Good Health", "value": 62.4},
+            {"label": "Innovation", "value": 78.6},
+            {"label": "Quality", "value": 61.4},
+            {"label": "Sustainability", "value": 59.3},
+            {"label": "Access", "value": 45.3}
+        ]
+    },
+    {
+        "country":"Cyprus",
+        "country_code":"CY",
+        "index_avg": 55.1, 
+        "pillars": [
+            {"label": "Good Health", "value": 70.7},
+            {"label": "Innovation", "value": 79.2},
+            {"label": "Quality", "value": 58.5},
+            {"label": "Sustainability", "value": 51.3},
+            {"label": "Access", "value": 24.7}
+        ]
+    },
+    {
+        "country":"Latvia",
+        "country_code":"LV",
+        "index_avg": 57.9, 
+        "pillars": [
+            {"label": "Good Health", "value": 73.6},
+            {"label": "Innovation", "value": 64.3},
+            {"label": "Quality", "value": 48.9},
+            {"label": "Sustainability", "value": 65.8},
+            {"label": "Access", "value": 39.0}
+        ]
+    },
+    {
+        "country":"Lithuania",
+        "country_code":"LT",
+        "index_avg": 56.8, 
+        "pillars": [
+            {"label": "Good Health", "value": 73.2},
+            {"label": "Innovation", "value": 65.6},
+            {"label": "Quality", "value": 55.8},
+            {"label": "Sustainability", "value": 50.6},
+            {"label": "Access", "value": 36.6}
+        ]
+    },
+    {
+        "country":"Luxembourg",
+        "country_code":"LU",
+        "index_avg": 69.0, 
+        "pillars": [
+            {"label": "Good Health", "value": 74.0},
+            {"label": "Innovation", "value": 94.4},
+            {"label": "Quality", "value": 69.4},
+            {"label": "Sustainability", "value": 69.1},
+            {"label": "Access", "value": 43.5}
+        ]
+    },
+        {
+        "country":"Hungary",
+        "country_code":"HU",
+        "index_avg": 50.8, 
+        "pillars": [
+            {"label": "Good Health", "value": 71.4},
+            {"label": "Innovation", "value": 84.2},
+            {"label": "Quality", "value": 52.9},
+            {"label": "Sustainability", "value": 65.0},
+            {"label": "Access", "value": 53.0}
+        ]
+    },
+    {
+        "country":"Malta",
+        "country_code":"MT",
+        "index_avg": 60.1, 
+        "pillars": [
+            {"label": "Good Health", "value": 72.1},
+            {"label": "Innovation", "value": 66.7},
+            {"label": "Quality", "value": 53.2},
+            {"label": "Sustainability", "value": 74.7},
+            {"label": "Access", "value": 28.2}
+        ]
+    },
+    {
+        "country":"Netherlands",
+        "country_code":"NL",
+        "index_avg": 72.9, 
+        "pillars": [
+            {"label": "Good Health", "value": 73.9},
+            {"label": "Innovation", "value": 84.7},
+            {"label": "Quality", "value": 66.4},
+            {"label": "Sustainability", "value": 74.2},
+            {"label": "Access", "value": 48.6}
+        ]
+    },
+    {
+        "country":"Austria",
+        "country_code":"AT",
+        "index_avg": 63.3, 
+        "pillars": [
+            {"label": "Good Health", "value": 64.2},
+            {"label": "Innovation", "value": 70.7},
+            {"label": "Quality", "value": 55.6},
+            {"label": "Sustainability", "value": 44.7},
+            {"label": "Access", "value": 21.7}
+        ]
+    },
+    {
+        "country":"Poland",
+        "country_code":"PL",
+        "index_avg": 56.8, 
+        "pillars": [
+            {"label": "Good Health", "value": 72.4},
+            {"label": "Innovation", "value": 75.9},
+            {"label": "Quality", "value": 65.3},
+            {"label": "Sustainability", "value": 64.0},
+            {"label": "Access", "value": 57.0}
+        ]
+    },
+    {
+        "country":"Portugal",
+        "country_code":"PT",
+        "index_avg": 56.0, 
+        "pillars": [
+            {"label": "Good Health", "value": 72.1},
+            {"label": "Innovation", "value": 86.1},
+            {"label": "Quality", "value": 66.1},
+            {"label": "Sustainability", "value": 67.3},
+            {"label": "Access", "value": 68.2}
+        ]
+    },
+    {
+        "country":"Romania",
+        "country_code":"RO",
+        "index_avg": 52.4, 
+        "pillars": [
+            {"label": "Good Health", "value": 69.4},
+            {"label": "Innovation", "value": 69.9},
+            {"label": "Quality", "value": 49.8},
+            {"label": "Sustainability", "value": 51.0},
+            {"label": "Access", "value": 28.5}
+        ]
+    },
+    {
+        "country":"Slovenia",
+        "country_code":"SI",
+        "index_avg": 68.4, 
+        "pillars": [
+            {"label": "Good Health", "value": 62.4},
+            {"label": "Innovation", "value": 78.6},
+            {"label": "Quality", "value": 61.4},
+            {"label": "Sustainability", "value": 59.3},
+            {"label": "Access", "value": 45.3}
+        ]
+    },
+    {
+        "country":"Slovakia",
+        "country_code":"SK",
+        "index_avg": 52.4, 
+        "pillars": [
+            {"label": "Good Health", "value": 70.7},
+            {"label": "Innovation", "value": 79.2},
+            {"label": "Quality", "value": 58.5},
+            {"label": "Sustainability", "value": 51.3},
+            {"label": "Access", "value": 24.7}
+        ]
+    },
+    {
+        "country":"Finland",
+        "country_code":"FI",
+        "index_avg": 73.0, 
+        "pillars": [
+            {"label": "Good Health", "value": 73.6},
+            {"label": "Innovation", "value": 64.3},
+            {"label": "Quality", "value": 48.9},
+            {"label": "Sustainability", "value": 65.8},
+            {"label": "Access", "value": 39.0}
+        ]
+    },
+    {
+        "country":"Sweden",
+        "country_code":"SE",
+        "index_avg": 82.6, 
+        "pillars": [
+            {"label": "Good Health", "value": 73.2},
+            {"label": "Innovation", "value": 65.6},
+            {"label": "Quality", "value": 55.8},
+            {"label": "Sustainability", "value": 50.6},
+            {"label": "Access", "value": 36.6}
+        ]
+    },
+    {
+        "country":"United Kingdom",
+        "country_code":"UK",
+        "index_avg": 71.5, 
+        "pillars": [
+            {"label": "Good Health", "value": 74.0},
+            {"label": "Innovation", "value": 94.4},
+            {"label": "Quality", "value": 69.4},
+            {"label": "Sustainability", "value": 69.1},
+            {"label": "Access", "value": 43.5}
+        ]
+    }
+]
