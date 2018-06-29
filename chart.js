@@ -20,7 +20,6 @@ var svg = d3.select('.chart').append("svg")
 d3.json("index.json", function(error, data) {
 
   data.sort(function(a,b) { return b.index_avg - a.index_avg; });
-
    //var extent = d3.extent(data, function(d) { return  d.pillar; });
   var extent = [-10, 100];
 
@@ -93,13 +92,6 @@ d3.json("index.json", function(error, data) {
     .style("stroke", "#404858")
     .style("stroke-width","1.5px");
 
-  // svg.append("circle")
-  //   .attr("r",  barHeight + 30)
-  //   .classed("outer", true)
-  //   .style("fill", "none")
-  //   .style("stroke", "#404858")
-  //   .style("stroke-width","1.5px");
-
   // Lines
   var lines = svg.selectAll("line")
     .data(keys)
@@ -108,11 +100,6 @@ d3.json("index.json", function(error, data) {
     .style("stroke", "#404858")
     .style("stroke-width",".7px")
     .attr("transform", function(d, i) { return "rotate(" + (i * 360 / numBars) + ")"; });
-
-  // Measurement
-  // svg.append("g")
-  //   .attr("class", "x axis")
-  //   .call(xAxis);
 
   // Country labels
   var labelRadius = barHeight * 1.05;
@@ -143,14 +130,14 @@ d3.json("index.json", function(error, data) {
       .attr("id", function(d,i) { return "full-arc-"+i; })
       .attr("class", "full-arc")
       .attr("data-clicked", "false")
+      .attr("data-key", function(f, d){return d})
       .attr("d", arc)
       .each(function(d) { d.outerRadius = 0; })
-      .text(function(d){return d.index_avg;})
+      .text(function(d){ return d.index_avg; })
       .classed("clicked", false)
       .on("click",function(){
-        var selectedValue = d3.select(this).text();
-
-        console.log(d3.select(this));
+        var selectedValue = d3.select(this).text(),
+            key = d3.select(this).attr("data-key");
 
         d3.select("#middle-circle-text").text(selectedValue);
         d3.selectAll(".full-arc").attr("data-clicked", "false");
@@ -159,11 +146,14 @@ d3.json("index.json", function(error, data) {
         d3.select(this).attr("data-clicked", "true");
         d3.select(this).classed("clicked", true);
 
-         var pillar1 = radialProgress(document.getElementById('pillar1'))
-          .onClick(onClick1)
-          .diameter(150)
-          .value(selectedValue)
-          .render();
+        // Update pillars
+        start(
+          data[key]['pillars'][0]['value'],
+          data[key]['pillars'][1]['value'],
+          data[key]['pillars'][2]['value'],
+          data[key]['pillars'][3]['value'],
+          data[key]['pillars'][4]['value'],
+          );
       })
       .on("mouseover",function(){
         dataSegmentId = d3.select(this).attr("id").replace('full-','');
@@ -442,39 +432,39 @@ function deselect() {
   pillar5.attr("class","radial");
 }
 
-function start() {
+function start(pillar1Val = 0, pillar2Val  = 0, pillar3Val  = 0, pillar4Val  = 0, pillar5Val  = 0) {
   var pillar1 = radialProgress(document.getElementById('pillar1'))
     .label("GOOD HEALTH")
     .onClick(onClick1)
     .diameter(150)
-    .value(78.5)
+    .value(pillar1Val)
     .render();
 
   var pillar2 = radialProgress(document.getElementById('pillar2'))
     .label("INNOVATION")
     .onClick(onClick2)
     .diameter(150)
-    .value(23)
+    .value(pillar2Val)
     .render();
 
   var pillar3 = radialProgress(document.getElementById('pillar3'))
     .label("QUALITY")
     .onClick(onClick3)
     .diameter(150)
-    .value(86.7)
+    .value(pillar3Val)
     .render();
 
   var pillar4 = radialProgress(document.getElementById('pillar4'))
     .label("SUSTAINABILITY")
     .onClick(onClick4)
     .diameter(150)
-    .value(50)
+    .value(pillar4Val)
     .render();
 
   var pillar5 = radialProgress(document.getElementById('pillar5'))
     .label("ACCESS")
     .onClick(onClick5)
     .diameter(150)
-    .value(100)
+    .value(pillar5Val)
     .render();
 }
